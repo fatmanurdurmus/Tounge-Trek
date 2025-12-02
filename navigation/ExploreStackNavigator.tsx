@@ -2,20 +2,19 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 
-import HomeScreen from "@/screens/HomeScreen";
+import ExploreScreen from "@/screens/ExploreScreen";
 import DetailScreen from "@/screens/DetailScreen";
-import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
 import { getCommonScreenOptions } from "@/navigation/screenOptions";
 
-export type HomeStackParamList = {
-  Home: undefined;
+export type ExploreStackParamList = {
+  Explore: undefined;
   Detail: { contentId: string };
 };
 
-const Stack = createNativeStackNavigator<HomeStackParamList>();
+const Stack = createNativeStackNavigator<ExploreStackParamList>();
 
-export default function HomeStackNavigator() {
+export default function ExploreStackNavigator() {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
 
@@ -26,10 +25,10 @@ export default function HomeStackNavigator() {
       }}
     >
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Explore"
+        component={ExploreScreen}
         options={{
-          headerTitle: () => <HeaderTitle title={t("app.name")} />,
+          headerTitle: t("explore.title"),
         }}
       />
       <Stack.Screen

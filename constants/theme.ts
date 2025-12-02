@@ -1,30 +1,63 @@
 import { Platform } from "react-native";
 
-const tintColorLight = "#007AFF";
-const tintColorDark = "#0A84FF";
-
 export const Colors = {
   light: {
-    text: "#11181C",
+    text: "#1A1A1A",
+    textSecondary: "#5A6B5D",
+    textTertiary: "#8B9A8E",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#687076",
-    tabIconSelected: tintColorLight,
-    link: "#007AFF",
-    backgroundRoot: "#FFFFFF", // Elevation 0
-    backgroundDefault: "#F2F2F2", // Elevation 1
-    backgroundSecondary: "#E6E6E6", // Elevation 2
-    backgroundTertiary: "#D9D9D9", // Elevation 3
+    tabIconDefault: "#8B9A8E",
+    tabIconSelected: "#5A6B5D",
+    link: "#5A6B5D",
+    primary: "#5A6B5D",
+    primaryLight: "#8DA18F",
+    accent: "#C4B8A5",
+    accentLight: "#DDD5C8",
+    backgroundRoot: "#F8F6F0",
+    backgroundDefault: "#FFFFFF",
+    backgroundSecondary: "#8DA18F",
+    backgroundTertiary: "#C4B8A5",
+    backgroundCard: "#FFFFFF",
+    border: "#E5E2DB",
+    borderLight: "#F0EDE6",
+    success: "#5A6B5D",
+    warning: "#D4A574",
+    error: "#C75C5C",
+    overlay: "rgba(0, 0, 0, 0.4)",
+    streakColor: "#D4A574",
+    xpColor: "#5A6B5D",
+    badgeGold: "#D4A574",
+    badgeSilver: "#A8A8A8",
+    badgeBronze: "#C08B5C",
   },
   dark: {
     text: "#ECEDEE",
+    textSecondary: "#8E92B3",
+    textTertiary: "#6B6F8E",
     buttonText: "#FFFFFF",
-    tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
-    link: "#0A84FF",
-    backgroundRoot: "#1F2123", // Elevation 0
-    backgroundDefault: "#2A2C2E", // Elevation 1
-    backgroundSecondary: "#353739", // Elevation 2
-    backgroundTertiary: "#404244", // Elevation 3
+    tabIconDefault: "#6B6F8E",
+    tabIconSelected: "#8E92B3",
+    link: "#8E92B3",
+    primary: "#3D4A7A",
+    primaryLight: "#5A6B9E",
+    accent: "#8E92B3",
+    accentLight: "#A8ABCF",
+    backgroundRoot: "#070F2B",
+    backgroundDefault: "#1A2454",
+    backgroundSecondary: "#2D3A6B",
+    backgroundTertiary: "#404D82",
+    backgroundCard: "#1A2454",
+    border: "#2D3A6B",
+    borderLight: "#404D82",
+    success: "#5A9E5A",
+    warning: "#D4A574",
+    error: "#C75C5C",
+    overlay: "rgba(0, 0, 0, 0.6)",
+    streakColor: "#D4A574",
+    xpColor: "#8E92B3",
+    badgeGold: "#D4A574",
+    badgeSilver: "#A8A8A8",
+    badgeBronze: "#C08B5C",
   },
 };
 
@@ -56,50 +89,47 @@ export const BorderRadius = {
 export const Typography = {
   h1: {
     fontSize: 32,
-    lineHeight: 40,
     fontWeight: "700" as const,
   },
   h2: {
     fontSize: 28,
-    lineHeight: 36,
     fontWeight: "700" as const,
   },
   h3: {
     fontSize: 24,
-    lineHeight: 32,
     fontWeight: "600" as const,
   },
   h4: {
     fontSize: 20,
-    lineHeight: 28,
     fontWeight: "600" as const,
   },
   body: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "400" as const,
+  },
+  bodyMedium: {
+    fontSize: 16,
+    fontWeight: "500" as const,
   },
   small: {
     fontSize: 14,
-    lineHeight: 20,
+    fontWeight: "400" as const,
+  },
+  caption: {
+    fontSize: 12,
     fontWeight: "400" as const,
   },
   link: {
     fontSize: 16,
-    lineHeight: 24,
     fontWeight: "400" as const,
   },
 };
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: "system-ui",
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: "ui-serif",
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: "ui-rounded",
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: "ui-monospace",
   },
   default: {
@@ -116,3 +146,56 @@ export const Fonts = Platform.select({
     mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
   },
 });
+
+export const Shadows = {
+  small: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  medium: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  large: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+};
+
+export const ContentTypes = {
+  proverb: { label: "Atasözü", icon: "book-open" },
+  idiom: { label: "Deyim", icon: "message-circle" },
+  legend: { label: "Efsane", icon: "star" },
+  myth: { label: "Mit", icon: "moon" },
+  folkStory: { label: "Halk Hikayesi", icon: "book" },
+  epic: { label: "Destan", icon: "award" },
+  mythologyNote: { label: "Mitoloji Notu", icon: "file-text" },
+  regionalTale: { label: "Bölgesel Masal", icon: "map-pin" },
+  meme: { label: "Meme", icon: "image" },
+  travelPhrase: { label: "Seyahat İfadesi", icon: "globe" },
+  dailyExpression: { label: "Günlük İfade", icon: "sun" },
+  trending_quote: { label: "Trend Söz", icon: "trending-up" },
+} as const;
+
+export const LanguageCodes = {
+  tr: { name: "Türkçe", flag: "TR" },
+  en: { name: "English", flag: "US" },
+  de: { name: "Deutsch", flag: "DE" },
+  fr: { name: "Français", flag: "FR" },
+  es: { name: "Español", flag: "ES" },
+  it: { name: "Italiano", flag: "IT" },
+  pt: { name: "Português", flag: "PT" },
+  ru: { name: "Русский", flag: "RU" },
+  ja: { name: "日本語", flag: "JP" },
+  zh: { name: "中文", flag: "CN" },
+  ar: { name: "العربية", flag: "SA" },
+} as const;

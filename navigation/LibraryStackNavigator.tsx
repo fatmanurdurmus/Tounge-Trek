@@ -2,20 +2,19 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 
-import HomeScreen from "@/screens/HomeScreen";
+import LibraryScreen from "@/screens/LibraryScreen";
 import DetailScreen from "@/screens/DetailScreen";
-import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
 import { getCommonScreenOptions } from "@/navigation/screenOptions";
 
-export type HomeStackParamList = {
-  Home: undefined;
+export type LibraryStackParamList = {
+  Library: undefined;
   Detail: { contentId: string };
 };
 
-const Stack = createNativeStackNavigator<HomeStackParamList>();
+const Stack = createNativeStackNavigator<LibraryStackParamList>();
 
-export default function HomeStackNavigator() {
+export default function LibraryStackNavigator() {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
 
@@ -26,10 +25,10 @@ export default function HomeStackNavigator() {
       }}
     >
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Library"
+        component={LibraryScreen}
         options={{
-          headerTitle: () => <HeaderTitle title={t("app.name")} />,
+          headerTitle: t("library.title"),
         }}
       />
       <Stack.Screen

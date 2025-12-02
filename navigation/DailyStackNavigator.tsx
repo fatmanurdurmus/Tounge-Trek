@@ -2,20 +2,21 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 
-import HomeScreen from "@/screens/HomeScreen";
+import DailyScreen from "@/screens/DailyScreen";
+import QuizScreen from "@/screens/QuizScreen";
 import DetailScreen from "@/screens/DetailScreen";
-import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
 import { getCommonScreenOptions } from "@/navigation/screenOptions";
 
-export type HomeStackParamList = {
-  Home: undefined;
+export type DailyStackParamList = {
+  Daily: undefined;
+  Quiz: undefined;
   Detail: { contentId: string };
 };
 
-const Stack = createNativeStackNavigator<HomeStackParamList>();
+const Stack = createNativeStackNavigator<DailyStackParamList>();
 
-export default function HomeStackNavigator() {
+export default function DailyStackNavigator() {
   const { theme, isDark } = useTheme();
   const { t } = useTranslation();
 
@@ -26,10 +27,17 @@ export default function HomeStackNavigator() {
       }}
     >
       <Stack.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Daily"
+        component={DailyScreen}
         options={{
-          headerTitle: () => <HeaderTitle title={t("app.name")} />,
+          headerTitle: t("daily.title"),
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={QuizScreen}
+        options={{
+          headerTitle: t("quiz.title"),
         }}
       />
       <Stack.Screen
