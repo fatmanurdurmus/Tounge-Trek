@@ -1,0 +1,196 @@
+1. Multi-Language, Multi-Type Content
+•	Support at least 11 languages with an architecture that can expand easily.
+•	Content types:
+proverb, idiom, legend, myth, folkStory, epic, mythologyNote, regionalTale, meme, travelPhrase, dailyExpression, trending_quote.
+•	All entries follow the Content interface above and include rich metadata: translation, meaning, cultural context, tags, region, popularity, etc.
+•	Implement semantic relationship mapping using relatedContent and shared tags to connect:
+o	Myths ⇄ proverbs
+o	Memes ⇄ daily expressions
+o	Epics ⇄ regional tales
+•	Support mythology explorer style browsing: by culture, era, themes, characters.
+2. UI & Navigation Structure
+Use Expo Router with a tabbed layout:
+Tabs: Home, Explore, Travel, Daily, Library, Profile
+•	Home Screen
+o	Daily featured expression card (“Expression/Quote of the Day”)
+o	Spotlight carousel: featured, trending, newly added content
+o	Quick category chips (Proverbs, Idioms, Myths, Memes, Travel, etc.)
+o	Streak counter & quick progress indicators
+o	Search bar with auto-suggestions
+o	Theme toggle (Light / Dark / System)
+•	Explore Screen
+o	Header search bar with live results using FTS5
+o	Filter drawer / panel:
+	Filters: language(s), content type, category, region, tags, popularity, date added
+	Sort: alphabetical, popularity, date added, recently viewed
+o	Grid/List toggle for content cards
+o	Semantic “Related expressions” section on detail views
+•	Travel Mode Screen
+o	Country / language selector
+o	Location-aware suggestions (where possible; can be mocked)
+o	Curated TravelPhrase content: survival phrases, etiquette tips, common memes/phrases one might hear
+o	Offline access for downloaded travel sets
+o	One-tap copy and optional TTS playback (expo-speech)
+•	Daily Screen
+o	Queue of “Today’s 5” expressions (mix of proverbs/idioms/memes)
+o	Options:
+	Mark as learned
+	Quick quiz mode
+o	Streak display & XP gains
+o	Button to set daily notification time
+•	Library Screen
+o	Sections: Bookmarks, Downloads (offline), Recently Viewed
+o	Show offline badges for cached items
+o	Filters and sort options
+•	Profile / Settings Screen
+o	Avatar (local or remote)
+o	Learning statistics:
+	Learned count per category/language
+	Time-on-task
+	Quiz accuracy
+o	Achievements gallery & streak calendar
+o	Leaderboard entry (rank summary)
+o	Settings:
+	Theme (Light/Dark/System)
+	App UI language (i18n)
+	Notification preferences
+	Data sync controls (check for updates, clear cache)
+o	Actions:
+	Upload Meme (image picker → Supabase upload → create local entry)
+	Open Achievements and Leaderboards
+	Open Feedback / “Report an issue”
+•	Detail Screen (Entry/[id])
+o	Show full text, translation, meaning, cultural context, tags, type, language
+o	Audio pronunciation / narration if audioUrl present
+o	Semantic relationships: “Related expressions” & “Related myths/stories”
+o	Buttons: Favorite, Bookmark, Share, Report/Feedback
+o	Show community stats: favorites count, rating, comments count
+•	Additional Screens
+o	AchievementsScreen: grid of badges with unlock status
+o	LeaderboardsScreen: weekly/monthly/all-time rankings
+o	StoryModuleScreen: interactive story flows
+o	FeedbackScreen: user feedback + per-content report form
+o	WhatsNewScreen: after content/app updates
+Implement friendly error and empty states, skeleton loaders, and pull-to-refresh where appropriate.
+
+3. Travel Mode
+•	Curated TravelPhrase sets per language/country:
+o	Greetings, directions, restaurant, emergencies, small talk.
+•	Cultural etiquette tips:
+o	“Do/Don’t” notes inline with phrases.
+•	Offline support:
+o	Allow download of a language’s travel pack for offline.
+•	Integrate with gamification:
+o	Achievements like “Travel Ready” (complete travel packs for 3 languages).
+
+4. Daily Expressions & Notifications
+•	Daily expression queue:
+o	Based on user’s target language & categories.
+•	Notifications via expo-notifications:
+o	User-configurable reminder time.
+o	Daily reminder with a random or “smart-picked” expression.
+o	Streak warnings (“You’re about to lose your streak!”)
+o	New content alerts (“New myths from Japanese folklore added”).
+•	Spaced repetition:
+o	Basic spaced-repetition scheduling for “learned” items (no need for complex algorithm, but maintain intervals).
+
+5. Gamification, Achievements & Leaderboards
+•	Point System (example values; implement as constants):
+o	Daily login: +10 points
+o	Learn/mark new content: +5
+o	Complete daily challenge: +20
+o	View content: +5
+o	Quiz correct answer: +10
+o	Bookmark: +2
+o	Share: +3
+•	Streaks:
+o	Track consecutive active days; show streak calendar.
+o	Rewards at milestones (7, 30 days).
+•	Achievements (include at least these):
+o	“First Steps” – learn first 5 items
+o	“Cultural Explorer” – explore content from 5 languages
+o	“Week Warrior” – 7-day streak
+o	“Month Master” – 30-day streak
+o	“Myth Hunter” – learn 20 mythology items
+o	“Social Butterfly” – share 10 items
+o	“Travel Ready” – complete travel mode in 3 languages
+o	“Meme Whisperer” – engage heavily with meme content
+•	Daily Challenges:
+o	Quote of the Day to learn
+o	5-question quiz (multiple choice: meaning/tag/language)
+•	Leaderboards:
+o	Weekly / Monthly / All-time rankings based on totalPoints
+o	Optional friend comparison (local mock or placeholder hook)
+o	Category-specific boards (e.g. “Myths”, “Memes”)
+6. Social, Community & Sharing
+•	Sharing:
+o	Generate a themed quote/entry card (React Native View) and convert to image via react-native-view-shot.
+o	Share via react-native-share:
+	As image (card)
+	As text (expression + translation + app link)
+o	Include deep links (Expo Link) so shared items open directly in the app.
+o	Provide options: copy to clipboard, save image to device.
+•	Community features (design with local data; remote can be added later):
+o	User submissions for new content (with local moderation queue / stub)
+o	Comment/discussion section per content item
+o	Ratings and favorites count
+7. Meme & Image Management
+•	Upload:
+o	Image picker (camera + gallery)
+o	Optional cropping/editing (can use simple custom cropping or a known lib)
+o	Compress large images before upload
+o	Upload to Supabase Storage (use environment variables:
+EXPO_PUBLIC_SUPABASE_URL, EXPO_PUBLIC_SUPABASE_ANON_KEY).
+o	Persist metadata locally in SQLite (Content item with type meme), including returned image URL.
+•	Download / Caching:
+o	Cache meme images via expo-file-system
+o	Show offline indicator for cached media
+o	Optionally watermark with app logo when saving/exporting cards.
+For Supabase, only implement the client setup and upload/download helpers. Do not define or assume any specific Supabase table schema; treat it as a generic file store + optional remote API.
+8. Interactive Storytelling & Mythology Explorer
+•	Story Modules:
+o	Multi-page narratives (legends, folk stories, epics) with illustrations.
+o	Optional audio narration (using audioUrl).
+o	Simple interactive choices (even if they converge) to keep users engaged.
+o	Short quiz at the end of each story; award XP/achievements.
+o	“Related content” suggestions (proverbs / idioms with similar moral).
+•	Mythology Explorer:
+o	Explore myths by:
+	Culture
+	Timeline
+	Major characters
+o	Show character relationship maps (can be basic graphs or lists).
+o	“Compare myths across cultures” feature:
+	E.g., compare flood myths from different cultures using side-by-side cards.
+
+9. Notifications & Personalized Suggestions
+•	Daily reminders:
+o	Configurable time & enabled flag.
+•	Achievement notifications:
+o	Trigger local notifications when user unlocks major achievements or hits streak milestones.
+•	Personalized suggestions:
+o	Periodic “You might like…” notifications:
+	Based on tags, languages and types the user engages with most.
+o	Allow user to opt in/out via settings.
+10. Continuous Updates & Versioning
+•	Implement version checking for:
+o	App content version
+o	Seed data version
+•	“Check for updates” button:
+o	Fetch remote JSON and merge into SQLite (respecting IDs and updatedAt).
+•	“What’s New” screen:
+o	Show new categories, stories, or features after updates.
+•	Show content update badges (e.g., “New · 5” in Explore).
+Implementation Tasks (Do These Now)
+1.	Scaffold Expo (TypeScript) project and install all dependencies (Expo Router, SQLite, Zustand, react-i18next, react-native-share, react-native-view-shot, expo-notifications, expo-file-system, expo-image-picker, @supabase/supabase-js, dayjs, zod, Jest, RNTL, etc.).
+2.	Implement theme system with the provided palettes and token mapping; hook + context + persistence.
+3.	Implement i18n with 11 locales and a language selector in Settings.
+4.	Implement navigation with tabs and stacks as described.
+5.	Build the main screens (Home, Explore, Travel, Daily, Library, Profile, Detail, Achievements, Leaderboards, Story modules) and connect them to data/state.
+6.	Implement search, filtering, semantic related items and offline caching.
+7.	Set up Supabase client and helpers for meme image upload/download & optional sync, without defining any Supabase table schemas.
+8.	Implement notifications (scheduling, cancel, handling).
+9.	Implement gamification logic (XP, streaks, achievements, leaderboards).
+10.	Implement sharing (card capture + share via react-native-share).
+11.	Add tests and ensure minimum 10 passing tests.
+12.	Write a README with setup, .env usage (including Supabase keys), run/test scripts, and theming notes.
