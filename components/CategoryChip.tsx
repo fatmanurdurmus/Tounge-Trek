@@ -1,5 +1,10 @@
 import React from "react";
-import { StyleSheet, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Pressable,
+  Image,
+  ImageSourcePropType,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,
@@ -15,7 +20,8 @@ import type { ContentType } from "@/types/content";
 interface CategoryChipProps {
   type: ContentType;
   label: string;
-  icon: keyof typeof Feather.glyphMap;
+  // Hem Feather ikon adı (string) hem de require("../...png") kabul edilsin
+  icon?: keyof typeof Feather.glyphMap | ImageSourcePropType;
   onPress: () => void;
   isSelected?: boolean;
 }
@@ -23,7 +29,7 @@ interface CategoryChipProps {
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 export function CategoryChip({
-  type,
+  type, // şu an kullanılmıyor ama ileride filtre vs. için lazım olabilir
   label,
   icon,
   onPress,
@@ -35,6 +41,8 @@ export function CategoryChip({
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
+
+  const isFeatherIcon = typeof icon === "string";
 
   return (
     <AnimatedPressable
@@ -54,16 +62,27 @@ export function CategoryChip({
         animatedStyle,
       ]}
     >
-      <Feather
-        name={icon}
-        size={16}
-        color={isSelected ? "#FFFFFF" : theme.text}
-      />
+      {/* ICON */}
+      {icon &&
+        (isFeatherIcon ? (
+          <Feather
+            name={icon as keyof typeof Feather.glyphMap}
+            size={16}
+            color={isSelected ? "#FFFFFF" : theme.text}
+          />
+        ) : (
+          <Image
+            source={icon as ImageSourcePropType}
+            style={styles.icon}
+            resizeMode="contain"
+          />
+        ))}
+
       <ThemedText
         type="small"
         style={{
           color: isSelected ? "#FFFFFF" : theme.text,
-          marginLeft: Spacing.xs,
+          marginLeft: icon ? Spacing.xs : 0,
         }}
       >
         {label}
@@ -80,5 +99,9 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.sm,
     borderRadius: BorderRadius.full,
     borderWidth: 1,
+  },
+  icon: {
+    width: 16,
+    height: 16,
   },
 });

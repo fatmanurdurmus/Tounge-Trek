@@ -11,7 +11,6 @@ import Animated, {
 
 import { ScreenScrollView } from "@/components/ScreenScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { ContentCard } from "@/components/ContentCard";
 import { CategoryChip } from "@/components/CategoryChip";
 import { StreakBadge } from "@/components/StreakBadge";
@@ -20,7 +19,7 @@ import Spacer from "@/components/Spacer";
 import { useTheme } from "@/hooks/useTheme";
 import { useAppStore } from "@/store/useAppStore";
 import { useContentStore } from "@/store/useContentStore";
-import { Spacing, BorderRadius, ContentTypes } from "@/constants/theme";
+import { Spacing, BorderRadius } from "@/constants/theme";
 import type { HomeStackParamList } from "@/navigation/HomeStackNavigator";
 import type { ContentType } from "@/types/content";
 
@@ -30,24 +29,71 @@ type HomeScreenProps = {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+// assets klasöründeki ikonlar (HomeScreen.tsx => screens, assets => proje kökü)
+const lightIcons: Record<string, any> = {
+  // Atasözü
+  proverb: require("../assets/light/Green_Book.png"),
+  // Deyim
+  idiom: require("../assets/light/whitedeyim.png"),
+  // Mit
+  myth: require("../assets/light/whitemoon.png"),
+  // Efsane
+  legend: require("../assets/light/green_star.png"),
+  // Halk Hikayesi
+  folkStory: require("../assets/light/Green_Book.png"),
+  // Seyahat İfadesi
+  travelPhrase: require("../assets/light/whiteglobal.png"),
+  // Meme
+  meme: require("../assets/light/whitememe.png"),
+};
+
+const darkIcons: Record<string, any> = {
+  // Atasözü
+  proverb: require("../assets/light/whiteatasozu.png"),
+  // Deyim
+  idiom: require("../assets/light/whitedeyim.png"),
+  // Mit
+  myth: require("../assets/light/whitemoon.png"),
+  // Efsane
+  legend: require("../assets/light/whitestar.png"),
+  // Halk Hikayesi
+  folkStory: require("../assets/light/whitebook.png"),
+  // Seyahat İfadesi
+  travelPhrase: require("../assets/light/whiteglobal.png"),
+  // Meme
+  meme: require("../assets/light/whitememe.png"),
+};
+
+const getCategoryIconSource = (category: ContentType, isDark: boolean) => {
+  const icons = isDark ? darkIcons : lightIcons;
+  return icons[category] || icons.proverb;
+};
+
 export default function HomeScreen({ navigation }: HomeScreenProps) {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const { t } = useTranslation();
   const gamificationStats = useAppStore((state) => state.gamificationStats);
   const userSettings = useAppStore((state) => state.userSettings);
-  const { getTrendingContent, getFeaturedContent, setFilters } = useContentStore();
+  const { getTrendingContent, getFeaturedContent, setFilters } =
+    useContentStore();
 
   const trendingContent = getTrendingContent().slice(0, 5);
   const featuredContent = getFeaturedContent();
   const dailyExpression = featuredContent[0];
 
-  const handleContentPress = useCallback((contentId: string) => {
-    navigation.navigate("Detail", { contentId });
-  }, [navigation]);
+  const handleContentPress = useCallback(
+    (contentId: string) => {
+      navigation.navigate("Detail", { contentId });
+    },
+    [navigation],
+  );
 
-  const handleCategoryPress = useCallback((type: ContentType) => {
-    setFilters({ types: [type] });
-  }, [setFilters]);
+  const handleCategoryPress = useCallback(
+    (type: ContentType) => {
+      setFilters({ types: [type] });
+    },
+    [setFilters],
+  );
 
   const categoryTypes: ContentType[] = [
     "proverb",
@@ -76,10 +122,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
 
       <Spacer height={Spacing.xl} />
 
-      <SearchBar
-        placeholder={t("home.search")}
-        onPress={() => {}}
-      />
+      <SearchBar placeholder={t("home.search")} onPress={() => {}} />
 
       <Spacer height={Spacing["2xl"]} />
 
@@ -112,7 +155,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             key={type}
             type={type}
             label={t(`contentTypes.${type}`)}
-            icon={ContentTypes[type].icon as any}
+            icon={getCategoryIconSource(type, isDark)}
             onPress={() => handleCategoryPress(type)}
           />
         ))}
@@ -153,7 +196,11 @@ interface DailyExpressionCardProps {
   theme: any;
 }
 
-function DailyExpressionCard({ content, onPress, theme }: DailyExpressionCardProps) {
+function DailyExpressionCard({
+  content,
+  onPress,
+  theme,
+}: DailyExpressionCardProps) {
   const scale = useSharedValue(1);
   const { t } = useTranslation();
 
