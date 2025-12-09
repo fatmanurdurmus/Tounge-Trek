@@ -25,34 +25,7 @@
       "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#070F2B",
-          "dark": {
-            "backgroundColor": "#070F2B"
-          }
-        }
-      ],
-      "expo-web-browser",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/icon.png",
-          "color": "#070F2B"
-        }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "Uygulama fotoğraflarınıza erişim izni istiyor."
-        }
-      ]
-    ],
+    "plugins": [],
     "experiments": {
       "reactCompiler": true
     }
