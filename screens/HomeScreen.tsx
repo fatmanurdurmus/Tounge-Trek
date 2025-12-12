@@ -34,17 +34,17 @@ const lightIcons: Record<string, any> = {
   // Atasözü
   proverb: require("../assets/light/Green_Book.png"),
   // Deyim
-  idiom: require("../assets/light/whitedeyim.png"),
+  idiom: require("../assets/light/greentopic.png"),
   // Mit
-  myth: require("../assets/light/whitemoon.png"),
+  myth: require("../assets/light/greenmoon.png"),
   // Efsane
   legend: require("../assets/light/green_star.png"),
   // Halk Hikayesi
   folkStory: require("../assets/light/Green_Book.png"),
   // Seyahat İfadesi
-  travelPhrase: require("../assets/light/whiteglobal.png"),
+  travelPhrase: require("../assets/light/greenglobal.png"),
   // Meme
-  meme: require("../assets/light/whitememe.png"),
+  meme: require("../assets/light/greenmeme.png"),
 };
 
 const darkIcons: Record<string, any> = {
