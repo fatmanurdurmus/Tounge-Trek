@@ -95,3 +95,12 @@ value = "1"
 path = "/*"
 name = "expo-sfv-version"
 value = "0"
+
+[userenv]
+
+[userenv.shared]
+SUPABASE_URL = "https://vnputhdfeaaufgmuxzem.supabase.co"
+SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZucHV0aGRmZWFhdWZnbXV4emVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI0NDk3NjQsImV4cCI6MjA3ODAyNTc2NH0.aV8MDjyFWVehpJK-7KSZY_wzDeZ5QSi9mnjks-4hKJI"
+SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZucHV0aGRmZWFhdWZnbXV4emVtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MjQ0OTc2NCwiZXhwIjoyMDc4MDI1NzY0fQ.LzaKKoSwodaVFU-ngq80dSjzb7tbf5lEYvT8pFc8p-4"
+EXPO_PUBLIC_SUPABASE_URL = "https://vnputhdfeaaufgmuxzem.supabase.co"
+EXPO_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZucHV0aGRmZWFhdWZnbXV4emVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI0NDk3NjQsImV4cCI6MjA3ODAyNTc2NH0.aV8MDjyFWVehpJK-7KSZY_wzDeZ5QSi9mnjks-4hKJI"
