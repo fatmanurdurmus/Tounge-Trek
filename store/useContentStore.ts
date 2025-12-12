@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { Content, FilterOptions, LanguageCode, ContentType } from "@/types/content";
+import { fetchAllContent } from "@/lib/supabase-service";
 import { SAMPLE_CONTENT } from "@/data/sampleContent";
 
 interface ContentState {
@@ -8,8 +9,10 @@ interface ContentState {
   searchQuery: string;
   filters: FilterOptions;
   isLoading: boolean;
+  error: string | null;
   
   initialize: () => Promise<void>;
+  refreshContent: () => Promise<void>;
   setSearchQuery: (query: string) => void;
   setFilters: (filters: Partial<FilterOptions>) => void;
   resetFilters: () => void;
@@ -40,18 +43,57 @@ export const useContentStore = create<ContentState>((set, get) => ({
   searchQuery: "",
   filters: DEFAULT_FILTERS,
   isLoading: false,
+  error: null,
 
   initialize: async () => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     try {
+      const content = await fetchAllContent();
+      
+      if (content.length > 0) {
+        set({ 
+          allContent: content,
+          filteredContent: content,
+          isLoading: false,
+        });
+      } else {
+        console.log("No content from Supabase, using sample data");
+        set({ 
+          allContent: SAMPLE_CONTENT,
+          filteredContent: SAMPLE_CONTENT,
+          isLoading: false,
+        });
+      }
+    } catch (error) {
+      console.error("Error initializing content:", error);
       set({ 
         allContent: SAMPLE_CONTENT,
         filteredContent: SAMPLE_CONTENT,
         isLoading: false,
+        error: "Supabase bağlantısı başarısız, yerel veri kullanılıyor",
       });
+    }
+  },
+
+  refreshContent: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const content = await fetchAllContent();
+      if (content.length > 0) {
+        set({ 
+          allContent: content,
+          isLoading: false,
+        });
+        get().applyFiltersAndSearch();
+      } else {
+        set({ isLoading: false });
+      }
     } catch (error) {
-      console.error("Error initializing content:", error);
-      set({ isLoading: false });
+      console.error("Error refreshing content:", error);
+      set({ 
+        isLoading: false,
+        error: "İçerik yenilenemedi",
+      });
     }
   },
 
@@ -145,6 +187,16 @@ export const useContentStore = create<ContentState>((set, get) => ({
           c.tags.some((t) => content.tags.includes(t))
       );
       related.push(...sameTags.slice(0, 5 - related.length));
+    }
+    
+    if (related.length < 5) {
+      const sameLanguage = allContent.filter(
+        (c) =>
+          c.id !== contentId &&
+          !related.some((r) => r.id === c.id) &&
+          c.language === content.language
+      );
+      related.push(...sameLanguage.slice(0, 5 - related.length));
     }
     
     return related;
